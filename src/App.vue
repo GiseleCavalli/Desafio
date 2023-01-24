@@ -1,8 +1,12 @@
 
 <template>
+  <button v-on:click="filtrarMes(12)">Nhoi</button>
   <div>
-    <div v-for="feriado in feriados"> 
-      {{  feriado.name }} - {{ formatDate({year: feriado.date.datetime.year, month: feriado.date.datetime.month, day: feriado.date.datetime.day}) }}
+    <div v-for="feriado in feriados">
+      {{ feriado.name }} - {{
+        formatDate({ year: feriado.date.datetime.year, month: feriado.date.datetime.month, day:
+          feriado.date.datetime.day
+      }) }}
     </div>
   </div>
 </template>
@@ -11,35 +15,48 @@
 import feriados from '../service/feriado';
 import { format } from 'date-fns';
 
-export default{
+export default {
 
-    data(){
-        return{
-            feriados: []
-        }
-    },
-
-    mounted(){
-        feriados.listar().then(resposta => {
-          console.log(resposta.data.response.holidays)
-
-          this.feriados = resposta.data.response.holidays;
-
-        }).catch(error => {
-          console.log('Vixe')
-          console.log(error)
-        })
-    },
-
-    methods:{
-      formatDate({year, month, day}){
-        return format(new Date(`${year}-${month}-${day}`), 'dd/MM/yyyy')
-      }
-
+  data() {
+    return {
+      feriados: []
     }
+  },
 
+  mounted() {
+    feriados.listar().then(resposta => {
+      console.log(resposta.data.response.holidays)
+
+      this.feriados = resposta.data.response.holidays;
+
+    }).catch(error => {
+      console.log('Vixe')
+      console.log(error)
+    })
+  },
+
+  methods: {
+    formatDate({ year, month, day }) {
+      return format(new Date(`${year}-${month}-${day}`), 'dd/MM/yyyy')
+    },
+
+    filtrarMes(month) {
+      let dados = [];
+      feriados.listar().then(resposta => {
+        const holidays = resposta.data.response.holidays
+
+        holidays.forEach(element => {
+          if (element.date.datetime.month == month) {
+            dados.push(element)
+          }
+        });
+        this.feriados = dados;
+      });
+    }
+  }
 }
 </script>
 
 <style>
+
 </style>
