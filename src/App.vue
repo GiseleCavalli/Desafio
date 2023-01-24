@@ -1,12 +1,14 @@
 
 <template>
   <ul>
-    <li v-for="feriado in feriados"> {{ feriado.name }} </li>
+    <li v-for="feriado in feriados"> {{ format(new Date(2014, 1, 11), 'MM/dd/yyyy') }} 
+    </li>
   </ul>
 </template>
 
 <script>
 import feriados from '../service/feriado';
+import { format, compareAsc } from 'date-fns';
 
 export default{
 
