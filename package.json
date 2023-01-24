@@ -11,7 +11,10 @@
     "axios": "^1.2.3",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
-    "vue": "^3.2.45"
+    "install": "^0.13.0",
+    "npm": "^9.3.1",
+    "vue": "^3.2.45",
+    "vue-date-fns": "^2.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
