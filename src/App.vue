@@ -1,6 +1,6 @@
 
 <template>
-  <button v-on:click="filtrarMes(12)">Nhoi</button>
+  <button v-on:click="filtrarMes(6)">Nhoi</button>
   <div>
     <div v-for="feriado in feriados">
       {{ feriado.name }} - {{
@@ -30,27 +30,20 @@ export default {
       this.feriados = resposta.data.response.holidays;
 
     }).catch(error => {
-      console.log('Vixe')
       console.log(error)
     })
   },
 
   methods: {
     formatDate({ year, month, day }) {
-      return format(new Date(`${year}-${month}-${day}`), 'dd/MM/yyyy')
+      return format(new Date(`${year}/${month}/${day}`), 'dd/MM/yyyy')
     },
 
     filtrarMes(month) {
-      let dados = [];
       feriados.listar().then(resposta => {
-        const holidays = resposta.data.response.holidays
+        const mes = resposta.data.response.holidays
 
-        holidays.forEach(element => {
-          if (element.date.datetime.month == month) {
-            dados.push(element)
-          }
-        });
-        this.feriados = dados;
+        this.feriados = mes.filter(mes => mes.date.datetime.month == month)
       });
     }
   }
