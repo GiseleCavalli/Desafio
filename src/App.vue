@@ -1,19 +1,31 @@
 
 <template>
   <div>
-    <select v-model="selectedDay" :items="days" @change=filtrarDia(selectedDay)>
-      <option v-for="day, index in days" :key="index" :value="day.id">
-        {{ day.text }}
-      </option>
-    </select>
+    <div class="div">
+      <div>
+        <p class="p">Dia</p>
+        <select v-model="selectedDay" :items="days" @change=filtrarDia(selectedDay) class="select">
+          <option v-for="day, index in days" :key="index" :value="day.id">
+            {{ day.text }}
+          </option>
+        </select>
+      </div>
+      
+      <div>
+        <p class="p">Mês</p>
+        <select v-model="selectedMonth" :items="months" @change=filtrarMes(selectedMonth) class="select">
+          <option v-for="month, index in months" :key="index" :value="month.id">
+            {{ month.text }}
+          </option>
+        </select>
+      </div>
 
-    <select v-model="selectedMonth" :items="months" @change=filtrarMes(selectedMonth)>
-      <option v-for="month, index in months" :key="index" :value="month.id">
-        {{ month.text }}
-      </option>
-    </select>
-
-    <div v-for="feriado in feriados">
+      <div class="div">
+        <button @click="limparFiltro" class="button">Limpar</button>        
+      </div>
+    </div>
+    
+    <div v-for="feriado in feriados" class="holiday">
       {{ feriado.name }} - {{ formatDate({ year: feriado.date.datetime.year, month: feriado.date.datetime.month, day:
           feriado.date.datetime.day}) }}
     </div>
@@ -83,10 +95,7 @@ export default {
 
   mounted() {
     feriados.listar().then(resposta => {
-      console.log(resposta.data.response.holidays)
-
       this.feriados = resposta.data.response.holidays;
-
     }).catch(error => {
       console.log(error)
     })
@@ -106,25 +115,65 @@ export default {
     },
 
     filtrarMes(month) {
-      console.log(month)
       feriados.listar().then(resposta => {
         const mes = resposta.data.response.holidays
 
         this.feriados = mes.filter(mes => mes.date.datetime.month == month)
       });
     },
-    
-    // filtrarTipo(type) {
-    //   feriados.listar().then(resposta => {
-    //     const tipo = resposta.type
 
-    //     this.feriados = tipo.filter(tipo => tipo.type == type)
-    //   });
-    // }
+    limparFiltro(){
+      this.selectedDay = '';
+      this.selectedMonth = '';
+    }
   }
 }
 </script>
 
 <style>
+body{
+  background-color: #f5ebe5;
+  color: #625240;
+}
 
+.p{
+  font-size: 17.5px;
+}
+
+.div{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 5%;
+}
+
+.button{
+  height: 38px;
+  margin-top: 65%;
+  padding: 5px 15px 5px 15px;
+  font-size: 18px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 6px;
+  border: 1px solid #63513c;
+  background-color: #9fccc3;
+  color: #63513c;
+  cursor: pointer;
+}
+
+.select{
+  padding: 5px 15px 5px 15px;
+  margin-right: 5%;
+  font-size: 16px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 6px;
+  border: 1px solid #63513c;
+  background-color: #ebddd5;
+  color: #63513c;
+  cursor: pointer;
+}
+
+.holiday{
+  font-size: 17px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: left;
+}
 </style>
