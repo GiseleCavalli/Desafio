@@ -2,29 +2,36 @@
 <template>
   <div>
     <div class="div">
-      <div>
+
+      <FiltroData :event="selectedDay" :items="days" :title="'Dia'" @filtrarData="filtrarDia(selectedDay)"/>
+
+      <FiltroData :event="selectedMonth" :items="months" :title="'Mês'" @filtrarData="filtrarMes(selectedMonth)"/>
+
+      <!-- <div>
         <p class="p">Dia</p>
-        <select v-model="selectedDay" :items="days" @change=filtrarDia(selectedDay) class="select">
+        <select v-bind="selectedDay" :items="days" @change=filtrarDia(selectedDay) class="select">
           <option v-for="day, index in days" :key="index" :value="day.id">
             {{ day.text }}
           </option>
         </select>
-      </div>
+      </div> -->
       
-      <div>
+
+      <!-- <div>
         <p class="p">Mês</p>
         <select v-model="selectedMonth" :items="months" @change=filtrarMes(selectedMonth) class="select">
           <option v-for="month, index in months" :key="index" :value="month.id">
             {{ month.text }}
           </option>
         </select>
-      </div>
+      </div> -->
 
       <div class="div">
         <button @click="limparFiltro" class="button">Limpar</button>        
       </div>
     </div>
     
+
     <div v-for="feriado in feriados" class="holiday">
       {{ feriado.name }} - {{ formatDate({ year: feriado.date.datetime.year, month: feriado.date.datetime.month, day:
           feriado.date.datetime.day}) }}
@@ -35,8 +42,9 @@
 <script>
 import feriados from '../service/feriado';
 import { format } from 'date-fns';
-import { days, months } from '../service/variables';
+import { days, months } from '../utils/variables';
 import './assets/app.css';
+import FiltroData from './components/FiltroData.vue';
 
 export default {
 
@@ -48,6 +56,10 @@ export default {
       selectedMonth: '',
       selectedDay: '',
     }
+  },
+
+  components: {
+    FiltroData 
   },
 
   mounted() {
@@ -64,6 +76,7 @@ export default {
     },
 
     filtrarDia(day) {
+      console.log(day);
       feriados.listar().then(resposta => {
         const dia = resposta.data.response.holidays
 
@@ -72,6 +85,7 @@ export default {
     },
 
     filtrarMes(month) {
+      console.log(month)
       feriados.listar().then(resposta => {
         const mes = resposta.data.response.holidays
 
