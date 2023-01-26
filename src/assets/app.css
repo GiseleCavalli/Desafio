@@ -1,0 +1,46 @@
+
+body{
+    background-color: #f5ebe5;
+    color: #625240;
+  }
+  
+  .p{
+    font-size: 17.5px;
+  }
+  
+  .div{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 5%;
+  }
+  
+  .button{
+    height: 38px;
+    margin-top: 65%;
+    padding: 5px 15px 5px 15px;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 6px;
+    border: 1px solid #63513c;
+    background-color: #9fccc3;
+    color: #63513c;
+    cursor: pointer;
+  }
+  
+  .select{
+    padding: 5px 15px 5px 15px;
+    margin-right: 5%;
+    font-size: 16px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 6px;
+    border: 1px solid #63513c;
+    background-color: #ebddd5;
+    color: #63513c;
+    cursor: pointer;
+  }
+  
+  .holiday{
+    font-size: 17px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: left;
+  }
