@@ -3,25 +3,15 @@
   <div>
     <div class="div">
 
-      <FiltroData :event="selectedDay" :items="days" :title="'Dia'" @filtrarData="filtrarDia(selectedDay)"/>
+      <FiltroData v-model="selectedDay" :items="days" title="Dia" @filtrarData="filtrarDia"/>
 
-      <FiltroData :event="selectedMonth" :items="months" :title="'Mês'" @filtrarData="filtrarMes(selectedMonth)"/>
+      <FiltroData v-model="selectedMonth" :items="months" :title="'Mês'" @filtrarData="filtrarMes(selectedMonth)"/>
 
       <!-- <div>
         <p class="p">Dia</p>
-        <select v-bind="selectedDay" :items="days" @change=filtrarDia(selectedDay) class="select">
+        <select v-model="selectedDay" :items="days" @change=filtrarDia(selectedDay) class="select">
           <option v-for="day, index in days" :key="index" :value="day.id">
             {{ day.text }}
-          </option>
-        </select>
-      </div> -->
-      
-
-      <!-- <div>
-        <p class="p">Mês</p>
-        <select v-model="selectedMonth" :items="months" @change=filtrarMes(selectedMonth) class="select">
-          <option v-for="month, index in months" :key="index" :value="month.id">
-            {{ month.text }}
           </option>
         </select>
       </div> -->
@@ -31,7 +21,6 @@
       </div>
     </div>
     
-
     <div v-for="feriado in feriados" class="holiday">
       {{ feriado.name }} - {{ formatDate({ year: feriado.date.datetime.year, month: feriado.date.datetime.month, day:
           feriado.date.datetime.day}) }}
@@ -57,11 +46,9 @@ export default {
       selectedDay: '',
     }
   },
-
   components: {
     FiltroData 
   },
-
   mounted() {
     feriados.listar().then(resposta => {
       this.feriados = resposta.data.response.holidays;
@@ -69,26 +56,25 @@ export default {
       console.log(error)
     })
   },
-
   methods: {
     formatDate({ year, month, day }) {
       return format(new Date(`${year}/${month}/${day}`), 'dd/MM/yyyy')
     },
 
     filtrarDia(day) {
-      console.log(day);
+      console.log('alo', this.selectedDay);
+      
       feriados.listar().then(resposta => {
-        const dia = resposta.data.response.holidays
-
+        const dia = resposta.data.response.holidays;
         this.feriados = dia.filter(dia => dia.date.datetime.day == day)
       });
     },
 
     filtrarMes(month) {
-      console.log(month)
-      feriados.listar().then(resposta => {
-        const mes = resposta.data.response.holidays
+      console.log('Mês', month)
 
+      feriados.listar().then(resposta => {
+        const mes = resposta.data.response.holidays;
         this.feriados = mes.filter(mes => mes.date.datetime.month == month)
       });
     },

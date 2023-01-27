@@ -1,18 +1,14 @@
 
-<template id="dataFilter">
-
+<template>
     <div>
         <p class="p">{{ title }}</p>
-
-        <select v-bind="event" :items="items" @change="filtrar(event)" class="select">
-          
+        
+        <select v-model="inputValue" @change="filtrar" class="select">
             <option v-for="item, index in items" :key="index" :value="item.id">
                 {{ item.text }}
             </option>
-
         </select>
     </div>
-
 </template>
 
 <script>
@@ -20,18 +16,25 @@ import '../assets/app.css';
 
 export default{
     name: 'FiltroData',
-    emits:[
-        'filtrarData'
+    props: [
+        'value',
+        'title',
+        'event',
+        'items'
     ],
-    props: {
-        title: String,
-        event: Number,
-        items: Array
+    data() {
+        return {
+            inputValue: '',
+        }
     },
-
+    created() {
+        this.inputValue = this.value;
+    },
     methods: {
-        filtrar(event){
-            this.$emit('filtrarData', event)
+        filtrar(){
+            console.log('Value',this.value)
+            this.$emit('input', this.value)
+            this.$emit('filtrarData')
         }
     }
 }
